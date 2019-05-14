@@ -9,8 +9,8 @@ Mainpoints:
 - TMDB api for tvshow data
 
 User can search for tv shows and add them to their personal list.
-He can mark the current episode and see the air date of the next one.
-The user gets an overview of his list in form of a poster-image list.
+He can mark his progress when watching the season and see the air date of the next one if it's not released already.
+The user gets an overview of his favorite shows in form of a poster-image list.
 
 
 ## Project members
