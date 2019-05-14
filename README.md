@@ -1,9 +1,17 @@
 # HUXE project 2
 
 ## Project topic
-Movie DB
+The Tv Show DB
 
-TBD...
+Mainpoints:
+- Login via Auth0
+- Firebase Database
+- TMDB api for tvshow data
+
+User can search for tv shows and add them to their personal list.
+He can mark the current episode and see the air date of the next one.
+The user gets an overview of his list in form of a poster-image list.
+
 
 ## Project members
 Daniel Dietrich (S1810629015)
