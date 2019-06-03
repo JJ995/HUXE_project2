@@ -14,7 +14,7 @@ export class MovieService {
   serviceUrl = 'https://api.themoviedb.org/3/search/movie';
   apiKey = '0d3e43709b42454584ddfeb258695cfc';
 
-  getMovies(query: string, page: number): Observable<MovieDBMoviesResultData> {
+  getMovies(query: string, page: number): Observable<object> {
     query = query.trim();
 
     const options = query ? { params: new HttpParams()

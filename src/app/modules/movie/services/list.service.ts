@@ -5,29 +5,31 @@ import { tap } from 'rxjs/operators';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import { MovieDBMovieListResultData } from '../../general/interfaces/MovieDBMovieListResultData';
-
-const enum StorageTokens {
-
-}
+import { MovieDBListMovie } from '../../general/interfaces/MovieDBListMovie';
 
 /**
- * this service manages the user session.
+ * this service retrieves the user movie list
  */
 @Injectable({
   providedIn: 'root'
 })
-export class PosterService {
+export class ListService {
+
+  private movieList: MovieDBListMovie[] = [];
 
   constructor(private httpClient: HttpClient, private apollo: Apollo) {
-
   }
 
+  getMovieList(): MovieDBListMovie[] {
+    return this.movieList;
+  }
 
   /**
    * takes the user name and loads movie ids from database
    * @param username the username
    */
-  GetMovieList(username: string): Observable<void> {
+  createMovieList(username: string): Observable<void> {
+    this.movieList = [];
     return new Observable<void>(obs => {
       this.apollo
       .watchQuery({
@@ -35,20 +37,22 @@ export class PosterService {
           {
             moviedbmovielists {
               username,
-              movieid,
-              posterurl
+              posterurl,
+              movieyear,
+              moviename
             }
           }
         `,
         fetchPolicy: 'no-cache'
       })
       .valueChanges.subscribe((result: MovieDBMovieListResultData) => {
-        for (const movies of result.data.moviedbmovielist) {
-          result.data.moviedbmovielist.values();
+        for (const movie of result.data.moviedbmovielists) {
+          if (movie.username === username) {
+            this.movieList.push(movie);
+          }
         }
-        obs.complete();
+        obs.next();
       });
     });
   }
-
 }

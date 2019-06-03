@@ -1,10 +1,8 @@
+import { MovieDBListMovie } from './MovieDBListMovie';
+
 export interface MovieDBMovieListResultData {
   data: {
-    moviedbmovielist: [{
-      username: string;
-      movieid: number;
-      posterurl: string;
-    }]
+    moviedbmovielists: [MovieDBListMovie]
   };
   loading: boolean;
   networkStatus: number;
