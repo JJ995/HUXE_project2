@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../../../auth/services/auth.service';
+import { PosterService } from '../../../auth/services/poster.service'
 
 @Component({
   selector: 'app-logged-in',
@@ -11,10 +12,10 @@ export class LoggedInComponent implements OnInit {
 
   public loggedInUsername: string;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private posterService: PosterService) { }
 
   ngOnInit() {
     this.loggedInUsername = this.authService.getLoggedInUserName();
+    this.posterService.GetMovieList(this.loggedInUsername).subscribe();
   }
-
 }
