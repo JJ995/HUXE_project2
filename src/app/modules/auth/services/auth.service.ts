@@ -9,6 +9,7 @@ import { MovieDBUserResultData } from '../../general/interfaces/MovieDBUserResul
 
 const enum StorageTokens {
   isLoggedIn = 'auth-service.is-logged-in',
+  loggedInUsername = 'auth-service.logged-in-username'
 }
 
 /**
@@ -38,6 +39,13 @@ export class AuthService {
     this.authStateChange.subscribe(isLoggedIn => {
       localStorage.setItem(StorageTokens.isLoggedIn, JSON.stringify(isLoggedIn));
     });
+  }
+
+  /**
+   * returns the name of the currently logged in user
+   */
+  getLoggedInUserName(): string {
+    return localStorage.getItem(StorageTokens.loggedInUsername);
   }
 
   /**
@@ -77,12 +85,14 @@ export class AuthService {
             }
           }
         `,
+        fetchPolicy: 'no-cache'
       })
       .valueChanges.subscribe((result: MovieDBUserResultData) => {
         for (const user of result.data.moviedbusers) {
           // Compare username and password
           if (user.username === username && user.pw === Md5.hashStr(password)) {
             this.loggedIn = true;
+            localStorage.setItem(StorageTokens.loggedInUsername, username);
             this.authStateChangeSubject$.next(this.loggedIn);
             obs.next();
           }
@@ -99,6 +109,7 @@ export class AuthService {
     return of(null)
       .pipe(
         tap(() => this.loggedIn = false),
+        tap(() => localStorage.setItem(StorageTokens.loggedInUsername, '')),
         tap(() => this.authStateChangeSubject$.next(this.loggedIn))
       );
   }

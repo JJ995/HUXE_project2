@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
 import { GeneralModule } from './modules/general/general.module';
-import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { GraphQLModule } from './graphql.module';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { GraphQLModule } from './graphql.module';
     HttpClientModule,
     AuthModule,
     GeneralModule,
-    DashboardModule,
     AppRoutingModule,
     GraphQLModule,
   ],

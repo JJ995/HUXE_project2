@@ -90,7 +90,7 @@ export class RegistrationComponent implements OnInit {
     this.submitUserService.submitUser(this.username, this.email, hashedPassword).subscribe(() => {
       this.loading = false;
       this.authService.login(this.username, this.password).subscribe(() => {
-        this.router.navigate(['app/dashboard']);
+        this.router.navigate(['app/movies']);
       }, () => {
         this.loginError = true;
       }, () => {

@@ -15,7 +15,7 @@
                [(ngModel)]="password" required
                (input)="clearErrorMessages()">
       </div>
-      <button class="btn btn-outline-primary"
+      <button class="login__button btn btn-outline-primary"
               [disabled]="usernameField.invalid || passwordField.invalid || loading"
               (mouseenter)='loginHover = true;'
               (mouseleave)='loginHover = false;'>

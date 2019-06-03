@@ -12,11 +12,11 @@ export class AppComponent {
   }
 
   /**
-   * Checks the login state of the user on startup and initially redirects the user to the dashboard if logged in.
+   * Checks the login state of the user on startup and initially redirects the user to the movie page if logged in.
    */
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/app/dashboard']);
+      this.router.navigate(['/app/movies']);
     }
   }
 }

@@ -1,10 +1,21 @@
+/* Colors */
 $primary: #00aab5;
-
 $dark-gray: #2e2e2e;
 $medium-gray: #555555;
 $light-gray: #c3c3c3;
-
+$lighter-gray: #ebebeb;
 $error-red: #b50000;
+
+/* Media queries */
+/* Breakpoints */
+$small: 480px;
+$medium: 768px;
+$large: 1024px;
+
+/* Media queries */
+$min-xs: "screen and (min-width: #{$small})";
+$min-sm: "screen and (min-width: #{$medium})";
+$min-md: "screen and (min-width: #{$large})";
 
 a:hover, a:focus {
   color: $primary !important;

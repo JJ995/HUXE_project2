@@ -1,0 +1,23 @@
+@import "../../../../../styles";
+
+.logged-in {
+  background: $lighter-gray;
+  padding: 20px;
+
+  &__container {
+    @media #{$min-sm} {
+      display: flex;
+    }
+  }
+
+  &__info {
+    @media #{$min-xs} {
+      line-height: 56px;
+    }
+  }
+
+  ul {
+    margin: 0;
+  }
+}
+

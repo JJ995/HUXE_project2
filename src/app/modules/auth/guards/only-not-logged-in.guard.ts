@@ -19,13 +19,13 @@ export class OnlyNotLoggedInGuard implements CanActivate, CanActivateChild {
 
   /**
    * checks if the user is logged in.
-   * If logged in it redirects the user to the /app/dashboard route
+   * If logged in it redirects the user to the /app/movies route
    */
   checkOrRedirect() {
     return this.authService.isLoggedIn()
       .pipe(map(isLoggedIn => {
         if (isLoggedIn) {
-          return this.router.createUrlTree(['/app/dashboard']);
+          return this.router.createUrlTree(['/app/movies']);
         } else {
           return true;
         }

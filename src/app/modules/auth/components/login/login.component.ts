@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
       this.loading = true;
       this.error = null;
       this.authService.login(this.username, this.password).subscribe(() => {
-        this.router.navigate(['app/dashboard']);
+        this.router.navigate(['app/movies']);
       }, error => {
         this.error = error;
         this.authError = false;

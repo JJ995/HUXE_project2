@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-logged-in',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoggedInComponent implements OnInit {
 
-  constructor() { }
+  public loggedInUsername: string;
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.loggedInUsername = this.authService.getLoggedInUserName();
   }
 
 }
