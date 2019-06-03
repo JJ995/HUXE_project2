@@ -2,6 +2,14 @@
 .registration {
   margin: 40px auto;
 
+  &__headline {
+    margin-bottom: 50px;
+
+    &:after {
+      bottom: -15px;
+    }
+  }
+
   &__input-info {
     min-height: 25px;
     font-size: 14px;

@@ -10,6 +10,16 @@
     }
   }
 
+  &__headline {
+    &:after {
+      bottom: -5px;
+
+      @media #{$min-xs} {
+        bottom: -10px;
+      }
+    }
+  }
+
   &__info {
     @media #{$min-xs} {
       line-height: 56px;

@@ -4,14 +4,16 @@
       <div class="movies__error-container error-container" *ngIf="error">
         {{ error }}
       </div>
-      <form (ngSubmit)="onSubmit()" class="movies__search-form">
-        <div class="form-group">
-          <label>Search in MovieDB</label>
-          <input type="text" #searchField="ngModel" [disabled]="loading" name="searchQuery" class="form-control"
-                 [(ngModel)]="searchQuery">
-        </div>
+      <div class="movies__search-form">
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Search in MovieDB</label>
+            <input type="text" #searchField="ngModel" [disabled]="loading" name="searchQuery" class="form-control"
+                   [(ngModel)]="searchQuery">
+          </div>
+        </form>
         <button class="movies__back-btn btn btn-outline-primary" title="Back to favorites" *ngIf="searchActive" (click)="backToList()">Back to favorites</button>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -20,13 +22,16 @@
   <div class="container">
     <div *ngIf="!searchActive">
       <div class="h2 text-center">My movies</div>
-      <div class="h3 text-center" *ngIf="movieList && movieList.length === 0">No movies in your list :/</div>
+      <div class="text-center" *ngIf="movieList && movieList.length === 0">
+        <span class="h3">No movies in your list :/</span><br />
+        <span class="h5">Search and add some!</span>
+      </div>
       <div class="spinner" [class.spinner--hidden]="!loadingList"></div>
       <div class="row">
         <div *ngFor="let movie of movieList" class="movies__movie-wrapper col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <div class="movies__movie-container">
             <button class="movies__movie-btn btn btn-outline-primary" [title]="'Remove ' + movie.title + ' from my list'">-</button>
-            <img [src]="'http://image.tmdb.org/t/p/w300' + movie.posterurl" alt="{{movie.moviename}}" class="movies__movie-image" *ngIf="movie.posterurl"/>
+            <img [src]="'http://image.tmdb.org/t/p/w500' + movie.posterurl" alt="{{movie.moviename}}" class="movies__movie-image" *ngIf="movie.posterurl"/>
             <div class="movies__movie-info">
               <span class="movies__movie-info-title">{{ movie.moviename }}</span>
               <span class="movies__movie-info-date">{{ movie.movieyear | slice:0:4 }}</span>
@@ -43,7 +48,7 @@
         <div *ngFor="let movie of movies" class="movies__movie-wrapper col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <div class="movies__movie-container">
             <button class="movies__movie-btn btn btn-outline-primary" [title]="'Add ' + movie.title + ' to my list'">+</button>
-            <img [src]="'http://image.tmdb.org/t/p/w300' + movie.poster_path" alt="{{movie.title}}" class="movies__movie-image" *ngIf="movie.poster_path"/>
+            <img [src]="'http://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{movie.title}}" class="movies__movie-image" *ngIf="movie.poster_path"/>
             <div class="movies__movie-info">
               <span class="movies__movie-info-title">{{ movie.title }}</span>
               <span class="movies__movie-info-date">{{ movie.release_date | slice:0:4 }}</span>

@@ -24,7 +24,6 @@ a:hover, a:focus {
 .underlined-headline {
   display: inline-block;
   position: relative;
-  margin-bottom: 50px;
 
   &:after {
     content: '';
@@ -33,7 +32,6 @@ a:hover, a:focus {
     background: $primary;
     width: 1000%;
     transform: translateX(-100%);
-    bottom: -15px;
   }
 }
 
