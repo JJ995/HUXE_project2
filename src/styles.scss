@@ -45,5 +45,34 @@ a:hover, a:focus {
   padding: 20px;
 }
 
+.spinner {
+  width: 40px;
+  height: 40px;
+  margin: 100px auto;
+  background-color: $dark-gray;
+  border-radius: 100%;
+  visibility: visible;
+  opacity: 1;
+
+  transition: all .3s ease;
+  animation: spinner-scaleout 1.0s infinite ease-in-out;
+}
+.spinner--hidden {
+  height: 0;
+  visibility: hidden;
+  margin: 0 auto;
+  opacity: 0;
+}
+
+@keyframes spinner-scaleout {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap";

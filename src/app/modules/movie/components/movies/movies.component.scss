@@ -1,0 +1,70 @@
+@import "../../../../../styles";
+
+.movies {
+  &__header {
+    background: url("../../../../../../src/assets/bg_search.jpg") center no-repeat;
+    height: 400px;
+    width: 100%;
+
+    .container {
+      height: 100%;
+    }
+  }
+
+  &__search-form-container {
+    position: relative;
+    height: 100%;
+  }
+  &__search-form {
+    background: rgba($dark-gray, .8);
+    padding: 30px;
+    border-radius: 10px;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+
+    label {
+      color: $lighter-gray;
+    }
+  }
+
+  &__error-container {
+    position: relative;
+    top: 25px;
+  }
+
+  &__body {
+    margin: 30px 0;
+  }
+
+  &__movie-image {
+    width: 100%;
+    height: auto;
+  }
+
+  &__movie-wrapper {
+    margin-bottom: 15px;
+  }
+
+  &__movie-container {
+    position: relative;
+    height: 100%;
+  }
+
+  &__movie-info {
+    position: absolute;
+    background: rgba($dark-gray, .8);
+    color: $lighter-gray;
+    width: 100%;
+    bottom: 0;
+    padding: 20px 15px;
+  }
+  &__movie-info-title {
+    font-size: 18px;
+    display: block;
+  }
+  &__movie-info-date {
+    font-size: 12px;
+  }
+}

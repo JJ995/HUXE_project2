@@ -1,3 +1,32 @@
-<p>
-  movies works!
-</p>
+<div class="movies__header">
+  <div class="container">
+    <div class="movies__search-form-container">
+      <div class="movies__error-container error-container" *ngIf="error">
+        {{ error }}
+      </div>
+      <form (ngSubmit)="onSubmit()" class="movies__search-form">
+        <div class="form-group">
+          <label>Search in MovieDB</label>
+          <input type="text" #searchField="ngModel" [disabled]="loading" name="searchQuery" class="form-control"
+                 [(ngModel)]="searchQuery">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="movies__body">
+  <div class="container">
+    <div class="spinner" [class.spinner--hidden]="!loading"></div>
+    <div class="row">
+      <div *ngFor="let movie of movies" class="movies__movie-wrapper col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="movies__movie-container">
+          <img [src]="'http://image.tmdb.org/t/p/w300' + movie.poster_path" alt="{{movie.title}}" class="movies__movie-image" *ngIf="movie.poster_path"/>
+          <div class="movies__movie-info">
+            <span class="movies__movie-info-title">{{ movie.title }}</span>
+            <span class="movies__movie-info-date">{{ movie.release_date | slice:0:4 }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,9 +11,9 @@ export class LoginComponent implements OnInit {
   public username: string = '';
   public password: string = '';
   public error: Error = null;
-  public loading = false;
-  public authError = false;
-  public loginHover = false;
+  public loading: boolean = false;
+  public authError: boolean = false;
+  public loginHover: boolean = false;
 
   constructor(
     private authService: AuthService,
