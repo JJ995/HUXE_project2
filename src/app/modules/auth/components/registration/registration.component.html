@@ -1,0 +1,45 @@
+<div class="container registration">
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Username *</label>
+      <input type="text" #usernameField="ngModel" [disabled]="loading" name="username" class="form-control" minlength="2"
+             [(ngModel)]="username" required
+             (input)="clearErrorMessages()">
+      <div class="registration__input-info">
+        <span *ngIf="usernameField.errors && usernameField.errors.minlength">Min. length: {{ usernameField.errors.minlength.requiredLength }}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email *</label>
+      <input type="text" #emailField="ngModel" [disabled]="loading" name="email" class="form-control" email required
+             [(ngModel)]="email"
+             (input)="clearErrorMessages()">
+      <div class="registration__input-info">
+        <span *ngIf="emailField.errors && emailField.errors.email">Invalid email address</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Password *</label>
+      <input type="password" #passwordField="ngModel" [disabled]="loading" name="password" class="form-control" minlength="6"
+             [(ngModel)]="password" required
+             (input)="clearErrorMessages()">
+      <div class="registration__input-info">
+        <span *ngIf="passwordField.errors && passwordField.errors.minlength">Min. length: {{ passwordField.errors.minlength.requiredLength }}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Repeat password *</label>
+      <input type="password" #passwordRepeatField="ngModel" [disabled]="loading" name="passwordRepeat" class="form-control" minlength="6"
+             [(ngModel)]="passwordRepeat" required
+             (input)="clearErrorMessages()">
+      <div class="registration__input-info">
+        <span *ngIf="passwordRepeatField.errors && passwordRepeatField.errors.minlength">Min. length: {{ passwordRepeatField.errors.minlength.requiredLength }}</span>
+      </div>
+    </div>
+    <button class="btn btn-outline-primary"
+            [disabled]="usernameField.invalid || emailField.required || passwordField.invalid || passwordRepeatField.invalid || loading">
+      <span *ngIf="!loading">Register</span>
+      <span *ngIf="loading">Loading...</span>
+    </button>
+  </form>
+</div>

@@ -10,6 +10,18 @@ const enum StorageTokens {
   isLoggedIn = 'auth-service.is-logged-in',
 }
 
+export interface MovieDBUserResultData {
+  data: {
+    moviedbusers: [{
+      username: string;
+      pw: string;
+    }]
+  };
+  loading: boolean;
+  networkStatus: number;
+  stale: boolean;
+}
+
 /**
  * this service manages the user session.
  * It is just a mock service that can be extended.
@@ -82,7 +94,7 @@ export class AuthService {
           }
         `,
       })
-      .valueChanges.subscribe(result => {
+      .valueChanges.subscribe((result: MovieDBUserResultData) => {
         for (const user of result.data.moviedbusers) {
           if (user.username === username && user.pw === Md5.hashStr(password)) {
             this.loggedIn = true;

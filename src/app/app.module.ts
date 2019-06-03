@@ -11,7 +11,7 @@ import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

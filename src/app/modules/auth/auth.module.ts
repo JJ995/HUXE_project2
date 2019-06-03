@@ -2,6 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 import { FormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthGuard } from './guards/auth.guard';
@@ -13,7 +14,7 @@ export function initializeAuthState(authService: AuthService) {
 }
 
 @NgModule({
-  declarations: [LoginComponent, LogoutComponent],
+  declarations: [LoginComponent, LogoutComponent, RegistrationComponent],
   providers: [
     AuthGuard,
     OnlyNotLoggedInGuard,

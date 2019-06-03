@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
   public password: string = '';
   public error: Error = null;
   public loading = false;
+  public authError = false;
+  public loginHover = false;
 
   constructor(
     private authService: AuthService,
@@ -29,10 +31,16 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['app/dashboard']);
       }, error => {
         this.error = error;
+        this.authError = false;
       }, () => {
         this.loading = false;
+        this.authError = true;
       });
     }
   }
 
+  clearErrorMessages() {
+   this.error = null;
+   this.authError = false;
+  }
 }

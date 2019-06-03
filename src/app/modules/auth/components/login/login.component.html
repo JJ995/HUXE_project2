@@ -1,21 +1,37 @@
-<form (ngSubmit)="onSubmit()">
-  <div *ngIf="error" class="alert alert-error mb-2">
-    {{ error.message }}
+<div class="login">
+  <div class="login__background" [ngClass]="{'login__background--hover': loginHover}"></div>
+  <div class="login__wrapper login__wrapper-background"></div>
+  <div class="login__wrapper">
+    <form (ngSubmit)="onSubmit()" class="login">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" #usernameField="ngModel" [disabled]="loading" name="username" class="form-control"
+               [(ngModel)]="username" required
+               (input)="clearErrorMessages()">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" #passwordField="ngModel" [disabled]="loading" name="password" class="form-control"
+               [(ngModel)]="password" required
+               (input)="clearErrorMessages()">
+      </div>
+      <button class="btn btn-outline-primary"
+              [disabled]="usernameField.invalid || passwordField.invalid || loading"
+              (mouseenter)='loginHover = true;'
+              (mouseleave)='loginHover = false;'>
+        <span *ngIf="!loading">Login</span>
+        <span *ngIf="loading">Loading...</span>
+      </button>
+      <a routerLink="/registration" class="login__register-link">Register</a>
+    </form>
+    <div class="login__error-container" *ngIf="error || authError">
+      <div *ngIf="error">
+        {{ error.message }}
+      </div>
+      <div *ngIf="authError">
+        Username or password wrong!
+      </div>
+    </div>
   </div>
+</div>
 
-  <div class="form-group">
-    <label>Username</label>
-    <input #usernameField="ngModel" [disabled]="loading" name="username" class="form-control" [(ngModel)]="username" required>
-    <pre>{{ usernameField.errors | json }}</pre>
-  </div>
-  <div class="form-group">
-    <label>Password</label>
-    <input #passwordField="ngModel" [disabled]="loading" name="password" class="form-control" [(ngModel)]="password" required minlength="5">
-    <pre>{{ passwordField.errors | json }}</pre>
-  </div>
-
-  <button class="btn btn-outline-primary" [disabled]="usernameField.invalid || passwordField.invalid || loading">
-    <span *ngIf="!loading">Login</span>
-    <span *ngIf="loading">Loading...</span>
-  </button>
-</form>

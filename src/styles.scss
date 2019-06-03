@@ -1,2 +1,14 @@
+$primary: #00aab5;
+
+$dark-gray: #2e2e2e;
+$medium-gray: #555555;
+$light-gray: #c3c3c3;
+
+$error-red: #b50000;
+
+a:hover, a:focus {
+  color: $primary !important;
+}
+
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap";
