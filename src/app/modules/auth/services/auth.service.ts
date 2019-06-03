@@ -5,33 +5,21 @@ import { tap } from 'rxjs/operators';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {Md5} from 'ts-md5/dist/md5';
+import { MovieDBUserResultData } from '../../general/interfaces/MovieDBUserResultData';
 
 const enum StorageTokens {
   isLoggedIn = 'auth-service.is-logged-in',
 }
 
-export interface MovieDBUserResultData {
-  data: {
-    moviedbusers: [{
-      username: string;
-      pw: string;
-    }]
-  };
-  loading: boolean;
-  networkStatus: number;
-  stale: boolean;
-}
-
 /**
  * this service manages the user session.
- * It is just a mock service that can be extended.
  */
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   /**
-   * the variable that keeps the mocked login state
+   * the variable that keeps the login state
    */
   private loggedIn = false;
 
@@ -73,11 +61,7 @@ export class AuthService {
   }
 
   /**
-   * takes the user credentials and logs in the user.
-   * throws an error when the login fails.
-   *
-   * currently this function only mocks a login.
-   *
+   * takes the user credentials and compares them with the stored credentials in the database
    * @param username the username
    * @param password the password
    */
@@ -96,22 +80,20 @@ export class AuthService {
       })
       .valueChanges.subscribe((result: MovieDBUserResultData) => {
         for (const user of result.data.moviedbusers) {
+          // Compare username and password
           if (user.username === username && user.pw === Md5.hashStr(password)) {
             this.loggedIn = true;
             this.authStateChangeSubject$.next(this.loggedIn);
             obs.next();
-          } else {
-            obs.complete();
           }
         }
+        obs.complete();
       });
     });
   }
 
   /**
    * logs out the current user.
-   *
-   * currently this function only uses the mocked loggedIn flag.
    */
   logout(): Observable<void> {
     return of(null)

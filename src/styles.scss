@@ -10,5 +10,29 @@ a:hover, a:focus {
   color: $primary !important;
 }
 
+.underlined-headline {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 50px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    height: 3px;
+    background: $primary;
+    width: 1000%;
+    transform: translateX(-100%);
+    bottom: -15px;
+  }
+}
+
+.error-container {
+  border: 1px solid $error-red;
+  background: rgba($error-red, .6);
+  border-radius: 10px;
+  color: white;
+  padding: 20px;
+}
+
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap";

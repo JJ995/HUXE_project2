@@ -24,7 +24,7 @@
       </button>
       <a routerLink="/registration" class="login__register-link">Register</a>
     </form>
-    <div class="login__error-container" *ngIf="error || authError">
+    <div class="login__error-container error-container" *ngIf="error || authError">
       <div *ngIf="error">
         {{ error.message }}
       </div>

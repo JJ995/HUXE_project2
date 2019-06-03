@@ -1,10 +1,23 @@
 <div class="container registration">
+  <h1 class="underlined-headline">Register as new user</h1>
+
+  <!-- Error messages -->
+  <div class="registration__error-container error-container" *ngIf="usernameError">
+      Username already exists
+  </div>
+  <div class="registration__error-container error-container" *ngIf="dbError">
+      Something went wrong during DB access
+  </div>
+  <div class="registration__error-container error-container" *ngIf="loginError">
+      Something went wrong during login
+  </div>
+
   <form (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label>Username *</label>
       <input type="text" #usernameField="ngModel" [disabled]="loading" name="username" class="form-control" minlength="2"
              [(ngModel)]="username" required
-             (input)="clearErrorMessages()">
+             (blur)="checkUsername()">
       <div class="registration__input-info">
         <span *ngIf="usernameField.errors && usernameField.errors.minlength">Min. length: {{ usernameField.errors.minlength.requiredLength }}</span>
       </div>
@@ -12,8 +25,7 @@
     <div class="form-group">
       <label>Email *</label>
       <input type="text" #emailField="ngModel" [disabled]="loading" name="email" class="form-control" email required
-             [(ngModel)]="email"
-             (input)="clearErrorMessages()">
+             [(ngModel)]="email">
       <div class="registration__input-info">
         <span *ngIf="emailField.errors && emailField.errors.email">Invalid email address</span>
       </div>
@@ -22,7 +34,7 @@
       <label>Password *</label>
       <input type="password" #passwordField="ngModel" [disabled]="loading" name="password" class="form-control" minlength="6"
              [(ngModel)]="password" required
-             (input)="clearErrorMessages()">
+             (input)="validatePasswords()">
       <div class="registration__input-info">
         <span *ngIf="passwordField.errors && passwordField.errors.minlength">Min. length: {{ passwordField.errors.minlength.requiredLength }}</span>
       </div>
@@ -31,13 +43,14 @@
       <label>Repeat password *</label>
       <input type="password" #passwordRepeatField="ngModel" [disabled]="loading" name="passwordRepeat" class="form-control" minlength="6"
              [(ngModel)]="passwordRepeat" required
-             (input)="clearErrorMessages()">
+             (input)="validatePasswords()">
       <div class="registration__input-info">
-        <span *ngIf="passwordRepeatField.errors && passwordRepeatField.errors.minlength">Min. length: {{ passwordRepeatField.errors.minlength.requiredLength }}</span>
+        <span *ngIf="passwordRepeatField.errors && passwordRepeatField.errors.minlength">Min. length: {{ passwordRepeatField.errors.minlength.requiredLength }}</span><br />
+        <span *ngIf="passwordError">Passwords are not equal</span>
       </div>
     </div>
     <button class="btn btn-outline-primary"
-            [disabled]="usernameField.invalid || emailField.required || passwordField.invalid || passwordRepeatField.invalid || loading">
+            [disabled]="usernameField.invalid || emailField.required || passwordField.invalid || passwordRepeatField.invalid || usernameError || passwordError || loading">
       <span *ngIf="!loading">Register</span>
       <span *ngIf="loading">Loading...</span>
     </button>
