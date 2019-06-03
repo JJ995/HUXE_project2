@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject, timer } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { mapTo, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
+import {Apollo} from 'apollo-angular';
+import gql from 'graphql-tag';
+import {Md5} from 'ts-md5/dist/md5';
 
 const enum StorageTokens {
   isLoggedIn = 'auth-service.is-logged-in',
@@ -28,7 +31,7 @@ export class AuthService {
 
   public authStateChange = this.authStateChangeSubject$.asObservable();
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private apollo: Apollo) {
     /**
      * used to update the stored login state of the user within the local storage.
      */
@@ -67,12 +70,30 @@ export class AuthService {
    * @param password the password
    */
   login(username: string, password: string): Observable<void> {
-    return timer(500 + Math.random() * 1000)
-      .pipe(
-        mapTo(null),
-        tap(() => this.loggedIn = true),
-        tap(() => this.authStateChangeSubject$.next(this.loggedIn))
-      );
+    return new Observable<void>(obs => {
+      this.apollo
+      .watchQuery({
+        query: gql`
+          {
+            moviedbusers {
+              username,
+              pw
+            }
+          }
+        `,
+      })
+      .valueChanges.subscribe(result => {
+        for (const user of result.data.moviedbusers) {
+          if (user.username === username && user.pw === Md5.hashStr(password)) {
+            this.loggedIn = true;
+            this.authStateChangeSubject$.next(this.loggedIn);
+            obs.next();
+          } else {
+            obs.complete();
+          }
+        }
+      });
+    });
   }
 
   /**
