@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../general/services/notification.service';
 
 @Component({
   selector: 'app-logout',
@@ -9,11 +10,15 @@ import { Router } from '@angular/router';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(public authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.authService.logout().subscribe(() => {
+      this.notificationService.showSuccess('You are now logged out.', 'Logged out');
       this.router.navigate(['/login']);
+    }, (error) => {
+      this.notificationService.showError('Something went wrong during logout.', 'Error');
+      console.error(error);
     });
   }
 

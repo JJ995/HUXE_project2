@@ -1,15 +1,9 @@
 <div class="container registration">
   <h1 class="registration__headline underlined-headline">Register as new user</h1>
 
-  <!-- Error messages -->
+  <!-- Duplicate user name error -->
   <div class="registration__error-container error-container" *ngIf="usernameError">
       Username already exists
-  </div>
-  <div class="registration__error-container error-container" *ngIf="dbError">
-      Something went wrong during DB access
-  </div>
-  <div class="registration__error-container error-container" *ngIf="loginError">
-      Something went wrong during login
   </div>
 
   <form (ngSubmit)="onSubmit()">

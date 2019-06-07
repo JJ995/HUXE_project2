@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { Md5 } from 'ts-md5';
 import { MovieDBUserResultData } from '../../../general/interfaces/MovieDBUserResultData';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../../general/services/notification.service';
 
 @Injectable()
 export class SubmitUserService {
@@ -50,11 +51,13 @@ export class RegistrationComponent implements OnInit {
   public passwordRepeat: string = '';
   public passwordError = false;
   public usernameError = false;
-  public dbError = false;
-  public loginError = false;
   public loading = false;
 
-  constructor(private apollo: Apollo, private submitUserService: SubmitUserService, private authService: AuthService, private router: Router) { }
+  constructor(private apollo: Apollo,
+              private submitUserService: SubmitUserService,
+              private authService: AuthService,
+              private router: Router,
+              private notificationService: NotificationService) { }
 
   ngOnInit() {
   }
@@ -77,28 +80,30 @@ export class RegistrationComponent implements OnInit {
     .valueChanges.subscribe((result: MovieDBUserResultData) => {
       for (const user of result.data.moviedbusers) {
         this.usernameError = user.username === this.username;
+        if (this.usernameError) {
+          break;
+        }
       }
       this.loading = false;
     });
   }
 
   onSubmit() {
-    this.dbError = false;
-    this.loginError = false;
     this.loading = true;
     const hashedPassword = Md5.hashStr(this.password).toString();
     this.submitUserService.submitUser(this.username, this.email, hashedPassword).subscribe(() => {
       this.loading = false;
       this.authService.login(this.username, this.password).subscribe(() => {
         this.router.navigate(['app/movies']);
-      }, () => {
-        this.loginError = true;
+      }, (error) => {
+        this.notificationService.showError('Something went wrong during login.', 'Error');
+        console.error(error);
       }, () => {
         this.loading = false;
       });
     }, (error) => {
+      this.notificationService.showError('Something went wrong when creating your user.', 'Error');
       console.error(error);
-      this.dbError = true;
     }, () => {
       this.loading = false;
     });

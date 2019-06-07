@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../general/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    ) { }
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
   }
@@ -30,7 +32,8 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.username, this.password).subscribe(() => {
         this.router.navigate(['app/movies']);
       }, error => {
-        this.error = error;
+        this.notificationService.showError('Something went wrong during login.', 'Error');
+        console.error(error);
         this.authError = false;
       }, () => {
         this.loading = false;

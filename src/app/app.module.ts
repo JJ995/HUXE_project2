@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +21,12 @@ import { GraphQLModule } from './graphql.module';
     GeneralModule,
     AppRoutingModule,
     GraphQLModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      closeButton: true,
+      timeOut: 3000,
+      progressBar: true
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

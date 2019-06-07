@@ -17,6 +17,10 @@ $min-xs: "screen and (min-width: #{$small})";
 $min-sm: "screen and (min-width: #{$medium})";
 $min-md: "screen and (min-width: #{$large})";
 
+body {
+  overflow-y: scroll;
+}
+
 a:hover, a:focus {
   color: $primary !important;
 }
@@ -74,3 +78,4 @@ a:hover, a:focus {
 
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap";
+@import "../node_modules/ngx-toastr/toastr";

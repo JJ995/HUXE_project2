@@ -1,17 +1,19 @@
 # HUXE project 2
 
 ## Project topic
-The Tv Show DB
+The Movie DB
 
 Mainpoints:
-- Login via Auth0
-- Firebase Database
-- TMDB api for tvshow data
+- Login, Registration
+- GraphQL Database
+- MovieDB api for movie data
 
-User can search for tv shows and add them to their personal list.
-He can mark his progress when watching the season and see the air date of the next one if it's not released already.
-The user gets an overview of his favorite shows in form of a poster-image list.
+User can search for movies and add them to their personal list of favorite movies.
+The user gets an overview of his favorite movies in form of an editable poster-image list.
 
+#### Deployed at
+
+https://lucid-yonath-947254.netlify.com/
 
 ## Project members
 Daniel Dietrich (S1810629015)

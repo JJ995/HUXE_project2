@@ -7,6 +7,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { MovieDBListMovie } from '../../../general/interfaces/MovieDBListMovie';
 import gql from 'graphql-tag';
 import { Apollo } from 'apollo-angular';
+import { NotificationService } from '../../../general/services/notification.service';
 
 @Injectable()
 export class MutateMovieListService {
@@ -73,11 +74,7 @@ export class MoviesComponent implements OnInit {
   public loading: boolean = false;
   public loadingList: boolean = false;
   public error: string = '';
-  public listError: boolean;
   public searchActive: boolean;
-  public addMovieDBSuccess: boolean;
-  public addMovieDBError: boolean;
-  public removeMovieDBError: boolean;
 
   public movies: MovieDBMovie[];
   public movieList: MovieDBListMovie[];
@@ -85,20 +82,21 @@ export class MoviesComponent implements OnInit {
   constructor(private movieService: MovieService,
               private mutateMovieListService: MutateMovieListService,
               private listService: ListService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.fetchMovieList();
   }
 
   fetchMovieList() {
-    this.listError = false;
     this.loadingList = true;
     this.listService.createMovieList(this.authService.getLoggedInUserName()).subscribe(() => {
       this.movieList = this.listService.getMovieList();
       this.loadingList = false;
-    }, () => {
-      this.listError = true;
+    }, (error) => {
+      this.notificationService.showError('Something went wrong while fetching your movie list.', 'Error');
+      console.error(error);
     }, () => {
       this.loadingList = false;
     });
@@ -128,32 +126,27 @@ export class MoviesComponent implements OnInit {
   addToMyList(movieId: number, title: string, releaseDate: string, posterPath: string) {
     // Check if movie is already in list
     if (this.movieList.filter(movie => movie.movieId === movieId).length === 0) {
-      this.addMovieDBError = false;
-      this.addMovieDBSuccess = false;
       this.mutateMovieListService.addMovie(this.authService.getLoggedInUserName(), movieId, title, releaseDate, posterPath)
       .subscribe(() => {
-        this.addMovieDBSuccess = true;
+        this.notificationService.showSuccess(title + ' was added to your list.', 'Movie added');
       }, (error) => {
+        this.notificationService.showError('Something went wrong while adding your movie.', 'Error');
         console.error(error);
-        // TODO: output
-        this.addMovieDBError = true;
       }, () => {
         this.loading = false;
       });
     } else {
-      // Movie already added
+      this.notificationService.showError('This movie is already in your list.', 'Already added');
     }
   }
 
-  removeFromMyList(id: string) {
-    this.removeMovieDBError = false;
+  removeFromMyList(id: string, title: string) {
     this.mutateMovieListService.removeMovie(id).subscribe(() => {
-      this.addMovieDBSuccess = true;
+      this.notificationService.showSuccess(title + ' was removed from your list.', 'Movie removed');
       this.fetchMovieList();
     }, (error) => {
+      this.notificationService.showError('Something went wrong while removing your movie.', 'Error');
       console.error(error);
-      // TODO: output
-      this.addMovieDBError = true;
     }, () => {
       this.loading = false;
     });
