@@ -14,7 +14,6 @@ export class LogoutComponent implements OnInit {
 
   ngOnInit() {
     this.authService.logout().subscribe(() => {
-      this.notificationService.showSuccess('You are now logged out.', 'Logged out');
       this.router.navigate(['/login']);
     }, (error) => {
       this.notificationService.showError('Something went wrong during logout.', 'Error');
