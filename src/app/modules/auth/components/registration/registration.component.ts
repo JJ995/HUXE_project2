@@ -97,8 +97,8 @@ export class RegistrationComponent implements OnInit {
         this.loading = false;
       });
     }, (error) => {
+      console.error(error);
       this.dbError = true;
-      console.log(error);
     }, () => {
       this.loading = false;
     });

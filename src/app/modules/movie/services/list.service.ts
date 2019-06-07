@@ -36,10 +36,12 @@ export class ListService {
         query: gql`
           {
             moviedbmovielists {
+              id,
               username,
-              posterurl,
-              movieyear,
-              moviename
+              movieId,
+              title,
+              posterPath,
+              releaseDate
             }
           }
         `,

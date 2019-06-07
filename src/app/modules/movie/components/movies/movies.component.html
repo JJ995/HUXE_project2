@@ -30,11 +30,11 @@
       <div class="row">
         <div *ngFor="let movie of movieList" class="movies__movie-wrapper col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <div class="movies__movie-container">
-            <button class="movies__movie-btn btn btn-outline-primary" [title]="'Remove ' + movie.title + ' from my list'">-</button>
-            <img [src]="'http://image.tmdb.org/t/p/w500' + movie.posterurl" alt="{{movie.moviename}}" class="movies__movie-image" *ngIf="movie.posterurl"/>
+            <button class="movies__movie-btn btn btn-outline-primary" [title]="'Remove ' + movie.title + ' from my list'" (click)="removeFromMyList(movie.id)">-</button>
+            <img [src]="'http://image.tmdb.org/t/p/w500' + movie.posterPath" alt="{{movie.title}}" class="movies__movie-image" *ngIf="movie.posterPath"/>
             <div class="movies__movie-info">
-              <span class="movies__movie-info-title">{{ movie.moviename }}</span>
-              <span class="movies__movie-info-date">{{ movie.movieyear | slice:0:4 }}</span>
+              <span class="movies__movie-info-title">{{ movie.title }}</span>
+              <span class="movies__movie-info-date">{{ movie.releaseDate | slice:0:4 }}</span>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
       <div class="row">
         <div *ngFor="let movie of movies" class="movies__movie-wrapper col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <div class="movies__movie-container">
-            <button class="movies__movie-btn btn btn-outline-primary" [title]="'Add ' + movie.title + ' to my list'">+</button>
+            <button class="movies__movie-btn btn btn-outline-primary" [title]="'Add ' + movie.title + ' to my list'" (click)="addToMyList(movie.id, movie.title, movie.release_date, movie.poster_path)">+</button>
             <img [src]="'http://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{movie.title}}" class="movies__movie-image" *ngIf="movie.poster_path"/>
             <div class="movies__movie-info">
               <span class="movies__movie-info-title">{{ movie.title }}</span>
