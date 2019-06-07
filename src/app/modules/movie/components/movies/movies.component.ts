@@ -8,11 +8,21 @@ import { MovieDBListMovie } from '../../../general/interfaces/MovieDBListMovie';
 import gql from 'graphql-tag';
 import { Apollo } from 'apollo-angular';
 import { NotificationService } from '../../../general/services/notification.service';
+import { pluck } from 'rxjs/operators';
+import { MovieDBMovieListResultData } from '../../../general/interfaces/MovieDBMovieListResultData';
 
 @Injectable()
 export class MutateMovieListService {
   constructor(private apollo: Apollo) {}
 
+  /**
+   * Add movie to movie list database
+   * @param username
+   * @param movieId
+   * @param title
+   * @param releaseDate
+   * @param posterPath
+   */
   addMovie(username: string, movieId: number, title: string, releaseDate: string, posterPath: string) {
     // tslint:disable-next-line:max-line-length
     const mutation = gql`mutation createMovieDBMovielistMutation($username: String!, $movieId: Int!, $title: String!, $releaseDate: String!, $posterPath: String!) {
@@ -42,6 +52,10 @@ export class MutateMovieListService {
     });
   }
 
+  /**
+   * Remove movie from movie list database
+   * @param id
+   */
   removeMovie(id: string) {
     const mutation = gql`mutation deleteMovieDBMovielistMutation($id: ID!) {
       deleteMoviedbmovielist(
@@ -89,19 +103,38 @@ export class MoviesComponent implements OnInit {
     this.fetchMovieList();
   }
 
+  /**
+   * Get movie list from database and filter movies for current user
+   */
   fetchMovieList() {
     this.loadingList = true;
-    this.listService.createMovieList(this.authService.getLoggedInUserName()).subscribe(() => {
-      this.movieList = this.listService.getMovieList();
-      this.loadingList = false;
-    }, (error) => {
-      this.notificationService.showError('Something went wrong while fetching your movie list.', 'Error');
-      console.error(error);
-    }, () => {
-      this.loadingList = false;
+    this.movieList = [];
+
+    // Get movie list from database
+    const source$ = this.listService.getMovieList();
+    const username = this.authService.getLoggedInUserName();
+
+    source$.pipe(pluck('data')).subscribe((result: MovieDBMovieListResultData) => {
+      for (const movie of result.moviedbmovielists) {
+        if (movie.username === username) {
+          this.movieList.push(movie);
+        }
+      }
+    });
+    source$.pipe(pluck('loading')).subscribe((loading) => {
+      this.loadingList = loading;
+    });
+    source$.pipe(pluck('errors')).subscribe((error) => {
+      if (error) {
+        this.notificationService.showError('Something went wrong while fetching your movie list.', 'Error');
+        console.error(error);
+      }
     });
   }
 
+  /**
+   * Get movies for given query
+   */
   onSubmit() {
     if (this.searchQuery.trim().length) {
       this.searchActive = true;
@@ -117,12 +150,22 @@ export class MoviesComponent implements OnInit {
     }
   }
 
+  /**
+   * Return to favorites list
+   */
   backToList() {
     this.searchQuery = '';
     this.searchActive = false;
     this.fetchMovieList();
   }
 
+  /**
+   * Add given movie to list of favorites
+   * @param movieId
+   * @param title
+   * @param releaseDate
+   * @param posterPath
+   */
   addToMyList(movieId: number, title: string, releaseDate: string, posterPath: string) {
     // Check if movie is already in list
     if (this.movieList.filter(movie => movie.movieId === movieId).length === 0) {
@@ -140,6 +183,11 @@ export class MoviesComponent implements OnInit {
     }
   }
 
+  /**
+   * Remove given movie from list of favorites
+   * @param id
+   * @param title
+   */
   removeFromMyList(id: string, title: string) {
     this.mutateMovieListService.removeMovie(id).subscribe(() => {
       this.notificationService.showSuccess(title + ' was removed from your list.', 'Movie removed');

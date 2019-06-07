@@ -1,9 +1,7 @@
 import { MovieDBListMovie } from './MovieDBListMovie';
 
 export interface MovieDBMovieListResultData {
-  data: {
-    moviedbmovielists: [MovieDBListMovie]
-  };
+  moviedbmovielists: [MovieDBListMovie];
   loading: boolean;
   networkStatus: number;
   stale: boolean;
