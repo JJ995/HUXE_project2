@@ -20,7 +20,7 @@ describe('workspace-project App', () => {
 
 
   it('type stuff into name field', () => {
-    expect(page.login('Tester', 'password').getText()).toContain('dashboard works!');
+    expect(page.login('Tester', 'password').getText()).toContain('MovieDB');
   });
 
 

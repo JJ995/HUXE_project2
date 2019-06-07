@@ -19,7 +19,7 @@ export class AppPage {
     const input2 = element(by.name('password'));
     input2.sendKeys(t2);
     browser.sleep(2000);
-    element.all(by.css('.loginButton')).click();
+    element(by.tagName('button')).click();
     browser.sleep(2000);
     return element(by.tagName('h1'));
   }
