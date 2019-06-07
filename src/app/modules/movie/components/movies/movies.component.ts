@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
 import { Apollo } from 'apollo-angular';
 
 @Injectable()
-class MutateMovieListService {
+export class MutateMovieListService {
   constructor(private apollo: Apollo) {}
 
   addMovie(username: string, movieId: number, title: string, releaseDate: string, posterPath: string) {

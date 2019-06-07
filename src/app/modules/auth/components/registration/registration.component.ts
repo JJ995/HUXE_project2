@@ -7,7 +7,7 @@ import { MovieDBUserResultData } from '../../../general/interfaces/MovieDBUserRe
 import { AuthService } from '../../services/auth.service';
 
 @Injectable()
-class SubmitUserService {
+export class SubmitUserService {
   mutation = gql`
     mutation createMovieDBUserMutation($username: String!, $email: String!, $pw: String!) {
       createMoviedbuser(
