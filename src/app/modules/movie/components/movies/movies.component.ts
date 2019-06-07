@@ -121,8 +121,8 @@ export class MoviesComponent implements OnInit {
         }
       }
     });
-    source$.pipe(pluck('loading')).subscribe((loading) => {
-      this.loadingList = loading;
+    source$.pipe(pluck('loading')).subscribe(() => {
+      this.loadingList = false;
     });
     source$.pipe(pluck('errors')).subscribe((error) => {
       if (error) {
